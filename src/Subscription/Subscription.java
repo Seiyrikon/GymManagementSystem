@@ -11,7 +11,7 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
     final String id, uniqueIdentifier;
     String memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
 
-    Subscription(String id, String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus) {
+    public Subscription(String id, String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus) {
         this.id = id;
         this.uniqueIdentifier = uniqueIdentifier;
         setMemberName(memberName);
@@ -19,6 +19,26 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
         setMembershipExpirationDate(membershipExpirationDate);
         setMembershipType(membershipType);
         setMembershipStatus(membershipStatus);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "ID:                 %15s%n" +
+            "Unique Identifier:  %15s%n" +
+            "Member Name:        %15s%n" +
+            "Membership Type:    %15s%n" +
+            "Date Of Availment:  %15s%n" +
+            "Expiration Date:    %15s%n" +
+            "Membership Status:  %15s%n",
+            id,
+            uniqueIdentifier,
+            memberName,
+            membershipType,
+            dateOfAvailment,
+            membershipExpirationDate,
+            membershipStatus
+        );
     }
 
     public String getId() {
