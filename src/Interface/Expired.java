@@ -1,5 +1,5 @@
 package Interface;
 
 public interface Expired {
-    public void isExpired();
+    public void isExpiredMemberStatus();
 }

@@ -56,7 +56,7 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
     public String getMembershipType() {
         return membershipType;
     }
-    
+
     public void setMembershipType(String membershipType) {
         this.membershipType = membershipType;
     }
@@ -70,17 +70,17 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
     }
 
     @Override
-    public void activate() {
+    public void activateMemberStatus() {
         setMembershipStatus("Activated");
     }
 
     @Override
-    public void deactivate() {
+    public void deactivateMemberStatus() {
         setMembershipStatus("Deactivated");
     }
 
     @Override
-    public void isExpired() {
+    public void isExpiredMemberStatus() {
         DateParser parseDate = new DateParser();
         int currentDate = parseDate.parseDateYYYYMMDDToInt(LocalDate.now().toString());
 
