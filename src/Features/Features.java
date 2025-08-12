@@ -1,13 +1,20 @@
 package Features;
 
-import Exception.InvalidChoiceException;
+import java.time.LocalDate;
+import java.util.Scanner;
+
 import Subscription.Monthly;
 import Subscription.Subscription;
 import Subscription.Weekly;
 import Subscription.Yearly;
+import Utilities.CustomDateFormatter;
 
 public class Features {
-    public void registerMember(int choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus) throws InvalidChoiceException{
+    final String YEARLY = "Yearly", MONTHLY = "Monthly", WEEKLY = "Weekly";
+
+    CustomDateFormatter formatter = new CustomDateFormatter();
+
+    public void registerMember(int choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus) {
         switch (choice) {
             case 1:
                 Subscription yearly = new Yearly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
@@ -21,7 +28,40 @@ public class Features {
                 Subscription weekly = new Weekly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
                 System.out.println(weekly);
             default:
-                throw new InvalidChoiceException("Registration only accepts choices 1, 2, and 3.");
+                break;
+        }
+    }
+
+    public void registerMemberHandler(int choice) {
+        String uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Unique Identifier: ");
+        uniqueIdentifier = sc.nextLine();
+        System.out.print("Enter Member Name: ");
+        memberName = sc.nextLine();
+        dateOfAvailment = formatter.dateFormatterMMMMdyyyy(LocalDate.now());
+
+        switch (choice) {
+            case 1:
+                membershipExpirationDate = formatter.dateFormatterMMMMdyyyy(LocalDate.now().plusYears(1));
+                membershipType = YEARLY;
+                membershipStatus = "Active";
+                registerMember(choice, "1", uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
+                break;
+                case 2: 
+                membershipExpirationDate = formatter.dateFormatterMMMMdyyyy(LocalDate.now().plusMonths(1));
+                membershipType = MONTHLY;
+                membershipStatus = "Active";
+                registerMember(choice, "1", uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
+                break;
+                case 3:
+                membershipExpirationDate = formatter.dateFormatterMMMMdyyyy(LocalDate.now().plusWeeks(1));
+                membershipType = WEEKLY;
+                membershipStatus = "Active";
+                registerMember(choice, "1", uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
+                break;
+            default:
+                break;
         }
     }
 }
