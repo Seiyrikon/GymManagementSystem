@@ -48,6 +48,10 @@ public class Features {
     }
 
     public List<Subscription> registerMemberHandler(String choice, List<Subscription> subscriptions) {
+        if(choice.equals("4")) {
+            return subscriptions;
+        }
+
         String uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
 
         final String id = (subscriptions.size() == 0) ? "1" : new StringBuilder().append(subscriptions.size() + 1).toString();

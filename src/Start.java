@@ -43,21 +43,7 @@ public class Start {
                                 validator.validateChoiceNumberRange(choice, 1, 4);
                                 continueLoop = false;
 
-                                switch (choice) {
-                                    case "1":
-                                        subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        break;
-                                    case "2":
-                                        subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        break;
-                                    case "3": 
-                                        subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        break;
-                                    case "4":
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                subscriptions = features.registerMemberHandler(choice, subscriptions);
                             } catch (InvalidChoiceException e) {
                                 continueLoop = true;
                                 System.out.println("Error: " + e.getMessage());
