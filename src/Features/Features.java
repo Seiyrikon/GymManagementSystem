@@ -1,7 +1,9 @@
 package Features;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Database.Database;
@@ -108,4 +110,24 @@ public class Features {
 
         return subscriptions;
     }
+
+    public void searchMember(List<Subscription> subscriptions, String name) {
+        for(Subscription s : subscriptions) {
+            System.out.println((s.getMemberName().equalsIgnoreCase(name)) ? s : "Member not found.");
+        }
+    }
+
+    public void filterActiveMembers(List<Subscription> subscriptions) {
+        List<Subscription> activeSubscribers = new ArrayList<Subscription>();
+        for(Subscription s : subscriptions) {
+            if(s.getMembershipStatus().equals("Active")) {
+                activeSubscribers.add(s);
+            }
+        }
+
+        for(Subscription as : activeSubscribers) {
+            System.out.println(as);
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 package Utilities;
 
 public class View {
-    public void Home() {
+    public void homeView() {
         System.out.println();
         System.out.println("Welcome to Gym Management System");
         System.out.println();
@@ -15,7 +15,7 @@ public class View {
         System.out.print("Choose: ");
     }
 
-    public void Registration() {
+    public void registrationView() {
         System.out.println();
         System.out.println("Type of Subscription");
         System.out.println();
@@ -25,5 +25,17 @@ public class View {
         System.out.println("(4) Back");
         System.out.println();
         System.out.print("Choose: ");
+    }
+
+    public void searchView() {
+        System.out.println();
+        System.out.print("Enter name: ");
+        System.out.println();
+    }
+
+    public void filterView() {
+        System.out.println();
+        System.out.println("All Active Members");
+        System.out.println();
     }
 }

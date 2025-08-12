@@ -26,7 +26,7 @@ public class Start {
         
         Scanner sc = new Scanner(System.in);
         do {
-            view.Home();
+            view.homeView();
             try {
                 choice = sc.nextLine();
                 validator.validateScannerNumberChoice(choice);
@@ -37,7 +37,7 @@ public class Start {
                     case "1":
                         continueLoop = true;
                         while(continueLoop) {
-                            view.Registration();
+                            view.registrationView();
                             try {
                                 choice = sc.nextLine();
                                 validator.validateScannerNumberChoice(choice);
@@ -78,6 +78,27 @@ public class Start {
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
+                    case "3":
+                        continueLoop = true;
+                        view.searchView();
+                        String name = sc.nextLine();
+                        features.searchMember(subscriptions, name);
+                        System.out.print("Press any key to continue...");
+                        sc.nextLine();
+                        break;
+                    case "4":
+                        continueLoop = true;
+                        view.filterView();
+                        features.filterActiveMembers(subscriptions);
+                        System.out.println("Development in progress...");
+                        sc.nextLine();
+                        break;
+                    case "5":
+                        System.out.println("Development in progress...");
+                        break;
+                    case "6":
+                        System.out.println("See you next time!");
+                        System.out.println("System shutting down...");
                     default:
                         break;
                 }
