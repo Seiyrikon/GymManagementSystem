@@ -3,6 +3,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import Database.CustomConnection;
 import Exception.InvalidChoiceException;
 import Features.Features;
 import Subscription.Subscription;
@@ -11,6 +12,7 @@ import Utilities.View;
 
 public class Start {
     public void initialize() {
+        CustomConnection connection = new CustomConnection();
         Features features = new Features();
         Validator validator = new Validator();
         View view = new View();
@@ -20,9 +22,11 @@ public class Start {
         boolean subscriptionUpdated = false;
 
         List<Subscription> subscriptions = new ArrayList<Subscription>();
+
+        subscriptions = connection.connect(subscriptions);
         
+        Scanner sc = new Scanner(System.in);
         do {
-            Scanner sc = new Scanner(System.in);
             view.Home();
             try {
                 choice = sc.nextLine();
@@ -71,6 +75,7 @@ public class Start {
                     case "2": 
                         continueLoop = true;
                         subscriptions = features.viewAllMembers(subscriptions, subscriptionUpdated);
+                        subscriptionUpdated = false;
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
@@ -82,7 +87,8 @@ public class Start {
                 System.out.println("Error: " + e.getMessage());
                 System.out.print("Press any key to continue...");
                 sc.nextLine();
-            }
+            } 
         } while (continueLoop);
+        sc.close();
     }
 }

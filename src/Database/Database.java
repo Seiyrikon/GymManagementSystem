@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Subscription.Monthly;
@@ -26,14 +27,15 @@ public class Database {
                 writer.write(s.getDateOfAvailment() + ",");
                 writer.write(s.getMembershipExpirationDate() + ",");
                 writer.write(s.getMembershipStatus());
-                writer.write("");
+                writer.write("\n");
             }
                 writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public List<Subscription> readDatabase(List<Subscription> subscriptions) {
+    public List<Subscription> readDatabase() {
+        List<Subscription> subscriptions = new ArrayList<Subscription>();
         String data;
         try {
             BufferedReader reader = new BufferedReader(new FileReader("database.txt"));
@@ -66,9 +68,13 @@ public class Database {
             }
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Generating database...");
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
+                writer.close();
+            } catch (Exception ex) {
+            }
         }
-
         return subscriptions;
     }
 } 

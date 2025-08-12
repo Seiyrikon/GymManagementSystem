@@ -90,12 +90,16 @@ public class Features {
 
     public List<Subscription> viewAllMembers(List<Subscription> subscriptions, boolean subscriptionUpdated) {
         
-        if(subscriptionUpdated) {
-            for(Subscription s : subscriptions) {
-                System.out.println(s);
+        if(!subscriptionUpdated) {
+            if(subscriptions.size() != 0) {
+                for(Subscription s : subscriptions) {
+                    System.out.println(s);
+                }
+            } else {
+                System.out.println("No member/s yet.");
             }
         } else {
-            subscriptions = database.readDatabase(subscriptions);
+            subscriptions = database.readDatabase();
 
             for(Subscription s : subscriptions) {
                 System.out.println(s);
