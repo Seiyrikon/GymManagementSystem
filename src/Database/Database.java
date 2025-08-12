@@ -12,8 +12,13 @@ public class Database {
     public void writeDatabase(Subscription subscription) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
-            writer.write("All Members\n");
-            writer.write("Hello");
+            writer.write(subscription.getId() + ",");
+            writer.write(subscription.getUniqueIdentifier() + ",");
+            writer.write(subscription.getMemberName() + ",");
+            writer.write(subscription.getMembershipType() + ",");
+            writer.write(subscription.getDateOfAvailment() + ",");
+            writer.write(subscription.getMembershipExpirationDate() + ",");
+            writer.write(subscription.getMembershipStatus() + "\n");
             writer.close();
 
         } catch (IOException e) {

@@ -4,6 +4,7 @@ import java.util.Scanner;
 import Database.Database;
 import Exception.InvalidChoiceException;
 import Features.Features;
+import Utilities.DateParser;
 import Utilities.Validator;
 import Utilities.View;
 
@@ -16,9 +17,6 @@ public class App {
 
         int choice = 0;
         boolean isError = true;
-
-        Database database = new Database();
-        database.writeDatabase(null);
         
         do {
             Scanner sc = new Scanner(System.in);
@@ -43,10 +41,13 @@ public class App {
                                 switch (choice) {
                                     case 1:
                                         features.registerMemberHandler(choice);
+                                        break;
                                     case 2:
                                         features.registerMemberHandler(choice);
+                                        break;
                                     case 3: 
                                         features.registerMemberHandler(choice);
+                                        break;
                                     case 4:
                                         break;
                                     default:

@@ -5,11 +5,15 @@ import java.time.LocalDate;
 import Interface.Activated;
 import Interface.Deactivated;
 import Interface.Expired;
+import Utilities.CustomDateFormatter;
 import Utilities.DateParser;
 
 public abstract class Subscription implements Activated, Deactivated, Expired{
     final String id, uniqueIdentifier;
     String memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
+
+    DateParser dateParser = new DateParser();
+    CustomDateFormatter dateFormatter = new CustomDateFormatter();
 
     public Subscription(String id, String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus) {
         this.id = id;
@@ -35,8 +39,8 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
             uniqueIdentifier,
             memberName,
             membershipType,
-            dateOfAvailment,
-            membershipExpirationDate,
+            dateFormatter.dateFormatterMMMMdyyyy(dateParser.convertToLocalDate(dateOfAvailment)),
+            dateFormatter.dateFormatterMMMMdyyyy(dateParser.convertToLocalDate(membershipExpirationDate)),
             membershipStatus
         );
     }
