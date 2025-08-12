@@ -27,19 +27,19 @@ public class Features {
                 Subscription yearly = new Yearly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
                 subscriptions.add(yearly);
                 database.writeDatabase(subscriptions);
-                System.out.println("Success!");
+                System.out.println("Subscription has beem created successfully!");
                 break;
             case "2": 
                 Subscription monthly = new Monthly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
                 subscriptions.add(monthly);
                 database.writeDatabase(subscriptions);
-                System.out.println("Success!");
+                System.out.println("Subscription has beem created successfully!");
                 break; 
             case "3":
                 Subscription weekly = new Weekly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
                 subscriptions.add(weekly);
                 database.writeDatabase(subscriptions);
-                System.out.println("Success!");
+                System.out.println("Subscription has beem created successfully!");
             default:
                 break;
         }
@@ -134,6 +134,7 @@ public class Features {
         for(Subscription s : subscriptions) {
             if(s.getMemberName().equalsIgnoreCase(name)) {
                 s.deactivateMemberStatus();
+                System.out.println("Deactivation successful!");
             }
         }
 
