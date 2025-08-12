@@ -1,14 +1,11 @@
 package Utilities;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import Exception.InvalidChoiceException;
 
 public class Validator {
     public void validateScannerNumberChoice(String choice) throws InvalidChoiceException {
         try {
-            int isInteger = Integer.parseInt(choice);
+            Integer.parseInt(choice);
         } catch (Exception e) {
             throw new InvalidChoiceException("Choice must be a number.");
         }

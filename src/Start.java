@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,7 +62,7 @@ public class Start {
                                     default:
                                         break;
                                 }
-                            } catch (InputMismatchException | InvalidChoiceException e) {
+                            } catch (InvalidChoiceException e) {
                                 continueLoop = true;
                                 System.out.println("Error: " + e.getMessage());
                                 System.out.print("Press any key to continue...");
@@ -82,7 +81,7 @@ public class Start {
                     default:
                         break;
                 }
-            } catch (InputMismatchException | InvalidChoiceException e) {
+            } catch (InvalidChoiceException e) {
                 continueLoop = true;
                 System.out.println("Error: " + e.getMessage());
                 System.out.print("Press any key to continue...");
