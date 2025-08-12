@@ -3,7 +3,6 @@ package Features;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Database.Database;
@@ -90,31 +89,28 @@ public class Features {
         return subscriptions;
     }
 
-    public List<Subscription> viewAllMembers(List<Subscription> subscriptions, boolean subscriptionUpdated) {
+    public List<Subscription> viewAllMembers(List<Subscription> subscriptions) {
         
-        if(!subscriptionUpdated) {
-            if(subscriptions.size() != 0) {
-                for(Subscription s : subscriptions) {
-                    System.out.println(s);
-                }
-            } else {
-                System.out.println("No member/s yet.");
-            }
-        } else {
-            subscriptions = database.readDatabase();
-
+        if(subscriptions.size() != 0) {
             for(Subscription s : subscriptions) {
                 System.out.println(s);
             }
+        } else {
+            System.out.println("No member/s yet.");
         }
 
         return subscriptions;
     }
 
     public void searchMember(List<Subscription> subscriptions, String name) {
+        List<Subscription> searchedMember = new ArrayList<Subscription>();
         for(Subscription s : subscriptions) {
-            System.out.println((s.getMemberName().equalsIgnoreCase(name)) ? s : "Member not found.");
+            if(s.getMemberName().equalsIgnoreCase(name)) {
+                searchedMember.add(s);
+            }
         }
+
+        System.out.println((searchedMember.size() != 0) ? searchedMember.get(0) : "Member \"" + name + "\" not found.");
     }
 
     public void filterActiveMembers(List<Subscription> subscriptions) {
@@ -128,6 +124,18 @@ public class Features {
         for(Subscription as : activeSubscribers) {
             System.out.println(as);
         }
+    }
+
+    public List<Subscription> deactivateMember(List<Subscription> subscriptions, String name) {
+        for(Subscription s : subscriptions) {
+            if(s.getMemberName().equalsIgnoreCase(name)) {
+                s.deactivateMemberStatus();
+            }
+        }
+
+        database.writeDatabase(subscriptions);
+
+        return subscriptions;
     }
 
 }

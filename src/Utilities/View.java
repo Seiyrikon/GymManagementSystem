@@ -30,12 +30,16 @@ public class View {
     public void searchView() {
         System.out.println();
         System.out.print("Enter name: ");
-        System.out.println();
     }
 
     public void filterView() {
         System.out.println();
         System.out.println("All Active Members");
         System.out.println();
+    }
+
+    public void deactivateView() {
+        System.out.println();
+        System.out.print("Enter name: ");
     }
 }

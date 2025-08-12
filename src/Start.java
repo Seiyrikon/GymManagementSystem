@@ -18,7 +18,6 @@ public class Start {
 
         String choice;
         boolean continueLoop = true;
-        boolean subscriptionUpdated = false;
 
         List<Subscription> subscriptions = new ArrayList<Subscription>();
 
@@ -47,15 +46,12 @@ public class Start {
                                 switch (choice) {
                                     case "1":
                                         subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        subscriptionUpdated = true;
                                         break;
                                     case "2":
                                         subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        subscriptionUpdated = true;
                                         break;
                                     case "3": 
                                         subscriptions = features.registerMemberHandler(choice, subscriptions);
-                                        subscriptionUpdated = true;
                                         break;
                                     case "4":
                                         break;
@@ -73,16 +69,15 @@ public class Start {
                         break;
                     case "2": 
                         continueLoop = true;
-                        subscriptions = features.viewAllMembers(subscriptions, subscriptionUpdated);
-                        subscriptionUpdated = false;
+                        subscriptions = features.viewAllMembers(subscriptions);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "3":
                         continueLoop = true;
                         view.searchView();
-                        String name = sc.nextLine();
-                        features.searchMember(subscriptions, name);
+                        String nameSearch = sc.nextLine();
+                        features.searchMember(subscriptions, nameSearch);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
@@ -90,11 +85,16 @@ public class Start {
                         continueLoop = true;
                         view.filterView();
                         features.filterActiveMembers(subscriptions);
-                        System.out.println("Development in progress...");
+                        System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "5":
-                        System.out.println("Development in progress...");
+                        continueLoop = true;
+                        view.deactivateView();
+                        String nameDeactivate = sc.nextLine();
+                        subscriptions = features.deactivateMember(subscriptions, nameDeactivate);
+                        System.out.print("Press any key to continue...");
+                        sc.nextLine();
                         break;
                     case "6":
                         System.out.println("See you next time!");
