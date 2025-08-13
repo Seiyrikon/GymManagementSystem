@@ -5,18 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 import Database.CustomConnection;
+import Exception.ExistingSubscriptionException;
 import Exception.InvalidChoiceException;
+import Exception.SubscriptionNotFoundException;
 import Features.Features;
 import Subscription.Subscription;
-import Utilities.Validator;
+import Utilities.CommonTools;
+import Utilities.CustomValidator;
 import Utilities.View;
 
 public class Start {
     public void initialize() {
         CustomConnection connection = new CustomConnection();
         Features features = new Features();
-        Validator validator = new Validator();
+        CustomValidator validator = new CustomValidator();
         View view = new View();
+        CommonTools tools = new CommonTools();
 
         String choice;
         boolean continueLoop = true;
@@ -30,6 +34,7 @@ public class Start {
             view.homeView();
             try {
                 choice = sc.nextLine();
+                choice = tools.removeSpace(choice);
                 validator.validateScannerNumberChoice(choice);
                 validator.validateChoiceNumberRange(choice, 1, 6);
                 continueLoop = false;
@@ -41,12 +46,13 @@ public class Start {
                             view.registrationView();
                             try {
                                 choice = sc.nextLine();
+                                choice = tools.removeSpace(choice);
                                 validator.validateScannerNumberChoice(choice);
                                 validator.validateChoiceNumberRange(choice, 1, 4);
                                 continueLoop = false;
 
                                 subscriptions = features.registerMemberHandler(choice, subscriptions);
-                            } catch (InvalidChoiceException e) {
+                            } catch (InvalidChoiceException | ExistingSubscriptionException e) {
                                 continueLoop = true;
                                 System.out.println("Error: " + e.getMessage());
                                 System.out.print("Press any key to continue...");
@@ -63,9 +69,8 @@ public class Start {
                         break;
                     case "3":
                         continueLoop = true;
-                        view.searchView();
-                        String nameSearch = sc.nextLine();
-                        features.searchMember(subscriptions, nameSearch);
+                        String toSearch = view.targetMemberView();
+                        features.searchMember(subscriptions, toSearch);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
@@ -78,9 +83,8 @@ public class Start {
                         break;
                     case "5":
                         continueLoop = true;
-                        view.deactivateView();
-                        String nameDeactivate = sc.nextLine();
-                        subscriptions = features.deactivateMember(subscriptions, nameDeactivate);
+                        String toDeactivate = view.targetMemberView();
+                        subscriptions = features.deactivateMember(subscriptions, toDeactivate);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
@@ -90,7 +94,7 @@ public class Start {
                     default:
                         break;
                 }
-            } catch (InvalidChoiceException e) {
+            } catch (InvalidChoiceException | SubscriptionNotFoundException e) {
                 continueLoop = true;
                 System.out.println("Error: " + e.getMessage());
                 System.out.print("Press any key to continue...");
