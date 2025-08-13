@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Scanner;
 
 import Database.Database;
+import Exception.ExistingSubscriptionException;
+import Exception.SubscriptionNotFoundException;
 import Subscription.Monthly;
 import Subscription.Subscription;
 import Subscription.Weekly;
 import Subscription.Yearly;
+import Utilities.CommonTools;
 import Utilities.CustomDateFormatter;
+import Utilities.CustomValidator;
 import Utilities.DateParser;
 
 public class Features {
@@ -19,6 +23,8 @@ public class Features {
     Database database = new Database();
     CustomDateFormatter formatter = new CustomDateFormatter();
     DateParser dateParser = new DateParser();
+    CommonTools tools = new CommonTools();
+    CustomValidator validator = new CustomValidator();
 
     public List<Subscription> registerMember(String choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus, List<Subscription> subscriptions) {
         
@@ -47,7 +53,7 @@ public class Features {
         return subscriptions;
     }
 
-    public List<Subscription> registerMemberHandler(String choice, List<Subscription> subscriptions) {
+    public List<Subscription> registerMemberHandler(String choice, List<Subscription> subscriptions) throws ExistingSubscriptionException {
         if(choice.equals("4")) {
             return subscriptions;
         }
@@ -60,9 +66,13 @@ public class Features {
 
         System.out.print("Enter Unique Identifier: ");
         uniqueIdentifier = sc.nextLine();
+        uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
 
         System.out.print("Enter Member Name: ");
         memberName = sc.nextLine();
+        memberName = tools.removeSpace(memberName);
+
+        validator.existingSubscription(subscriptions, uniqueIdentifier, memberName);
 
         dateOfAvailment = dateParser.removeDash(LocalDate.now().toString());
 
@@ -106,15 +116,22 @@ public class Features {
         return subscriptions;
     }
 
-    public void searchMember(List<Subscription> subscriptions, String name) {
+    public void searchMember(List<Subscription> subscriptions, String toSearch) throws SubscriptionNotFoundException {
+        String[] parts = toSearch.split(",");
         List<Subscription> searchedMember = new ArrayList<Subscription>();
+        
         for(Subscription s : subscriptions) {
-            if(s.getMemberName().equalsIgnoreCase(name)) {
+            if(s.getUniqueIdentifier().equalsIgnoreCase(parts[0]) && s.getMemberName().equalsIgnoreCase(parts[1])) {
                 searchedMember.add(s);
+                break;
             }
         }
 
-        System.out.println((searchedMember.size() != 0) ? searchedMember.get(0) : "Member \"" + name + "\" not found.");
+        if(searchedMember.size() != 0) {
+            System.out.println(searchedMember.get(0));
+        } else {
+            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+        }
     }
 
     public void filterActiveMembers(List<Subscription> subscriptions) {
@@ -130,17 +147,17 @@ public class Features {
         }
     }
 
-    public List<Subscription> deactivateMember(List<Subscription> subscriptions, String name) {
+    public List<Subscription> deactivateMember(List<Subscription> subscriptions, String toDeactivate) throws SubscriptionNotFoundException {
+        String[] parts = toDeactivate.split(",");
         for(Subscription s : subscriptions) {
-            if(s.getMemberName().equalsIgnoreCase(name)) {
+            if(s.getUniqueIdentifier().equalsIgnoreCase(parts[0]) && s.getMemberName().equalsIgnoreCase(parts[1])) {
                 s.deactivateMemberStatus();
+                database.writeDatabase(subscriptions);
                 System.out.println("Deactivation successful!");
+                return subscriptions;
             }
         }
-
-        database.writeDatabase(subscriptions);
-
-        return subscriptions;
+        throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
     }
 
 }
