@@ -66,7 +66,7 @@ public class Start {
                         break;
                     case "3":
                         continueLoop = true;
-                        String toSearch = view.targetMemberView();
+                        String toSearch = view.targetMemberView(sc);
                         features.searchMember(subscriptions, toSearch);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
@@ -80,7 +80,7 @@ public class Start {
                         break;
                     case "5":
                         continueLoop = true;
-                        String toDeactivate = view.targetMemberView();
+                        String toDeactivate = view.targetMemberView(sc);
                         subscriptions = features.deactivateMember(subscriptions, toDeactivate);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();

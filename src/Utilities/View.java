@@ -31,8 +31,7 @@ public class View {
         System.out.print("Choose: ");
     }
 
-    public String targetMemberView() {
-        Scanner sc = new Scanner(System.in);
+    public String targetMemberView(Scanner sc) {
         System.out.println();
 
         System.out.print("Enter Unique Identifier: ");
