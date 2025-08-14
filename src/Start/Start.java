@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import Database.CustomConnection;
-import Exception.ExistingSubscriptionException;
-import Exception.InvalidChoiceException;
-import Exception.SubscriptionNotFoundException;
 import Features.Features;
 import Subscription.Subscription;
 import Utilities.CommonTools;
@@ -52,7 +49,7 @@ public class Start {
                                 continueLoop = false;
 
                                 subscriptions = features.registerMemberHandler(choice, subscriptions);
-                            } catch (InvalidChoiceException | ExistingSubscriptionException e) {
+                            } catch (Exception e) {
                                 continueLoop = true;
                                 System.out.println("Error: " + e.getMessage());
                                 System.out.print("Press any key to continue...");
@@ -94,7 +91,7 @@ public class Start {
                     default:
                         break;
                 }
-            } catch (InvalidChoiceException | SubscriptionNotFoundException e) {
+            } catch (Exception e) {
                 continueLoop = true;
                 System.out.println("Error: " + e.getMessage());
                 System.out.print("Press any key to continue...");
