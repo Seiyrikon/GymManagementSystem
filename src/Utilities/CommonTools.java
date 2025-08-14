@@ -1,7 +1,7 @@
 package Utilities;
 
 public class CommonTools {
-    public String removeSpace(String iniput) {
-        return iniput.trim();
+    public String removeSpace(String input) {
+        return input.trim();
     }
 }
