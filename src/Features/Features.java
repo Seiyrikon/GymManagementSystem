@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import Database.Database;
+import Enum.MembershipStatus;
+import Enum.SubscriptionType;
 import Exception.ExistingSubscriptionException;
 import Exception.SubscriptionNotFoundException;
 import Subscription.Monthly;
@@ -18,7 +20,6 @@ import Utilities.CustomValidator;
 import Utilities.DateParser;
 
 public class Features {
-    final String YEARLY = "Yearly", MONTHLY = "Monthly", WEEKLY = "Weekly";
 
     Database database = new Database();
     CustomDateFormatter formatter = new CustomDateFormatter();
@@ -79,20 +80,20 @@ public class Features {
         switch (choice) {
             case "1":
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusYears(1).toString());
-                membershipType = YEARLY;
-                membershipStatus = "Active";
+                membershipType = SubscriptionType.YEARLY.label;
+                membershipStatus = MembershipStatus.ACTIVATED.label;
                 subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
                 break;
             case "2": 
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusMonths(1).toString());
-                membershipType = MONTHLY;
-                membershipStatus = "Active";
+                membershipType = SubscriptionType.MONTHLY.label;
+                membershipStatus = MembershipStatus.ACTIVATED.label;
                 subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
                 break;
             case "3":
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusWeeks(1).toString());
-                membershipType = WEEKLY;
-                membershipStatus = "Active";
+                membershipType = SubscriptionType.WEEKLY.label;
+                membershipStatus = MembershipStatus.ACTIVATED.label;
                 subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
                 break;
             default:
@@ -137,7 +138,7 @@ public class Features {
     public void filterActiveMembers(List<Subscription> subscriptions) {
         List<Subscription> activeSubscribers = new ArrayList<Subscription>();
         for(Subscription s : subscriptions) {
-            if(s.getMembershipStatus().equals("Active")) {
+            if(s.getMembershipStatus().equals(MembershipStatus.ACTIVATED.label)) {
                 activeSubscribers.add(s);
             }
         }

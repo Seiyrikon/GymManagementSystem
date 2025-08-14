@@ -2,6 +2,7 @@ package Subscription;
 
 import java.time.LocalDate;
 
+import Enum.MembershipStatus;
 import Interface.Activated;
 import Interface.Deactivated;
 import Interface.Expired;
@@ -95,12 +96,12 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
 
     @Override
     public void activateMemberStatus() {
-        setMembershipStatus("Activated");
+        setMembershipStatus(MembershipStatus.ACTIVATED.label);
     }
 
     @Override
     public void deactivateMemberStatus() {
-        setMembershipStatus("Deactivated");
+        setMembershipStatus(MembershipStatus.DEACTIVATED.label);
     }
 
     @Override
@@ -109,7 +110,7 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
         int currentDate = parseDate.parseDateYYYYMMDDToInt(LocalDate.now().toString());
 
         if(currentDate > parseDate.parseDateYYYYMMDDToInt(getMembershipExpirationDate())) {
-            setMembershipStatus("Expired");
+            setMembershipStatus(MembershipStatus.EXPIRED.label);
         }
     }
 }
