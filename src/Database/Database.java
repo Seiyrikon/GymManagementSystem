@@ -75,6 +75,11 @@ public class Database {
             } catch (Exception ex) {
             }
         }
+
+        for(Map.Entry<String, Subscription> s : subscriptionMap.entrySet()) {
+            s.getValue().isExpiredMemberStatus();
+        }
+
         return subscriptionMap;
     }
 } 
