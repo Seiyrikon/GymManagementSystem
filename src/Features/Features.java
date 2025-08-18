@@ -54,7 +54,7 @@ public class Features {
         return subscriptionMap;
     }
 
-    public Map<String, Subscription> registerMemberHandler(String choice, Map<String, Subscription> subscriptionMap) throws ExistingSubscriptionException {
+    public Map<String, Subscription> registerMemberHandler(String choice, Map<String, Subscription> subscriptionMap, Scanner sc) throws ExistingSubscriptionException {
         if(choice.equals("4")) {
             return subscriptionMap;
         }
@@ -62,8 +62,6 @@ public class Features {
         String uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
 
         final String id = (subscriptionMap.size() == 0) ? "1" : new StringBuilder().append(subscriptionMap.size() + 1).toString();
-
-        Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter Unique Identifier: ");
         uniqueIdentifier = sc.nextLine();

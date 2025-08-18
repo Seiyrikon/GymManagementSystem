@@ -46,7 +46,7 @@ public class Start {
                                 validator.validateChoiceNumberRange(choice, 1, 4);
                                 continueLoop = false;
 
-                                subscriptionMap = features.registerMemberHandler(choice, subscriptionMap);
+                                subscriptionMap = features.registerMemberHandler(choice, subscriptionMap, sc);
                                 filteredActiveMembers = features.getAllActiveMembers(subscriptionMap);
                             } catch (Exception e) {
                                 continueLoop = true;
