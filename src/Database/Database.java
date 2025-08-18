@@ -5,8 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import Subscription.Monthly;
 import Subscription.Subscription;
@@ -16,10 +16,10 @@ import Subscription.Yearly;
 public class Database {
     final String YEARLY = "Yearly", MONTHLY = "Monthly", WEEKLY = "Weekly";
 
-    public void writeDatabase(List<Subscription> subscriptions) {
+    public void writeDatabase(Map<String, Subscription> subscriptionMap) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("database.txt"));
-            for(Subscription s : subscriptions) {
+            for(Subscription s : subscriptionMap.values()) {
                 writer.write(s.getId() + ",");
                 writer.write(s.getUniqueIdentifier() + ",");
                 writer.write(s.getMemberName() + ",");
@@ -34,8 +34,8 @@ public class Database {
             e.printStackTrace();
         }
     }
-    public List<Subscription> readDatabase() {
-        List<Subscription> subscriptions = new ArrayList<Subscription>();
+    public Map<String, Subscription> readDatabase() {
+        Map<String, Subscription> subscriptionMap = new HashMap<String, Subscription>();
         String data;
         try {
             BufferedReader reader = new BufferedReader(new FileReader("database.txt"));
@@ -54,13 +54,13 @@ public class Database {
 
                 switch (membershipType) {
                     case YEARLY:
-                        subscriptions.add(new Yearly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
+                        subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), new Yearly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
                         break;
                     case MONTHLY: 
-                        subscriptions.add(new Monthly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
+                        subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), new Monthly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
                         break;
                     case WEEKLY:
-                        subscriptions.add(new Weekly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
+                        subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), new Weekly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus));
                         break;
                     default:
                         break;
@@ -75,7 +75,7 @@ public class Database {
             } catch (Exception ex) {
             }
         }
-        return subscriptions;
+        return subscriptionMap;
     }
 } 
 

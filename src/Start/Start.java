@@ -1,7 +1,6 @@
 package Start;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import Database.CustomConnection;
@@ -22,9 +21,8 @@ public class Start {
         String choice;
         boolean continueLoop = true;
 
-        List<Subscription> subscriptions = new ArrayList<Subscription>();
-
-        subscriptions = connection.connect(subscriptions);
+        Map<String, Subscription> subscriptionMap = connection.connect();
+        Map<String, Subscription> filteredActiveMembers = features.getAllActiveMembers(subscriptionMap);
         
         Scanner sc = new Scanner(System.in);
         do {
@@ -48,7 +46,8 @@ public class Start {
                                 validator.validateChoiceNumberRange(choice, 1, 4);
                                 continueLoop = false;
 
-                                subscriptions = features.registerMemberHandler(choice, subscriptions);
+                                subscriptionMap = features.registerMemberHandler(choice, subscriptionMap);
+                                filteredActiveMembers = features.getAllActiveMembers(subscriptionMap);
                             } catch (Exception e) {
                                 continueLoop = true;
                                 System.out.println("Error: " + e.getMessage());
@@ -60,28 +59,29 @@ public class Start {
                         break;
                     case "2": 
                         continueLoop = true;
-                        subscriptions = features.viewAllMembers(subscriptions);
+                        features.viewAllMembers(subscriptionMap);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "3":
                         continueLoop = true;
                         String toSearch = view.targetMemberView(sc);
-                        features.searchMember(subscriptions, toSearch);
+                        features.searchMember(subscriptionMap, toSearch);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "4":
                         continueLoop = true;
                         view.filterView();
-                        features.filterActiveMembers(subscriptions);
+                        features.filterActiveMembers(filteredActiveMembers);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "5":
                         continueLoop = true;
                         String toDeactivate = view.targetMemberView(sc);
-                        subscriptions = features.deactivateMember(subscriptions, toDeactivate);
+                        subscriptionMap = features.deactivateMember(subscriptionMap, toDeactivate);
+                        filteredActiveMembers = features.removeDeactivatedMember(filteredActiveMembers, toDeactivate);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;

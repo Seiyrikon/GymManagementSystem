@@ -1,6 +1,6 @@
 package Utilities;
 
-import java.util.List;
+import java.util.Map;
 
 import Exception.ExistingSubscriptionException;
 import Exception.InvalidChoiceException;
@@ -21,11 +21,11 @@ public class CustomValidator {
         }
     }
 
-    public void existingSubscription(List<Subscription> subscriptions, String uniqueIdentifier, String memberName) throws ExistingSubscriptionException {
-        for(Subscription s : subscriptions) {
-            if(s.getUniqueIdentifier().equalsIgnoreCase(uniqueIdentifier) && s.getMemberName().equalsIgnoreCase(memberName)) {
-                throw new ExistingSubscriptionException("Subscription already exist.");
-            }
+    public void existingSubscription(Map<String, Subscription> subscriptionMap, String uniqueIdentifier, String memberName) throws ExistingSubscriptionException {
+        Subscription existingSubscription = subscriptionMap.get(uniqueIdentifier + "," + memberName.toLowerCase());
+
+        if(existingSubscription != null) {
+            throw new ExistingSubscriptionException("Subscription already exist.");
         }
     }
 }

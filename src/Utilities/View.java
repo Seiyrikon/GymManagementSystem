@@ -44,7 +44,7 @@ public class View {
 
         System.out.println();
 
-        return uniqueIdentifier + "," + memberName;
+        return uniqueIdentifier + "," + memberName.toLowerCase();
     }
 
     public void filterView() {

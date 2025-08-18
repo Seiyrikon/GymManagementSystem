@@ -1,13 +1,13 @@
 package Database;
 
-import java.util.List;
+import java.util.Map;
 
 import Subscription.Subscription;
 
 public class CustomConnection {
     Database database = new Database();
 
-    public List<Subscription> connect(List<Subscription> subscriptions) {
+    public Map<String, Subscription> connect() {
         return database.readDatabase();
     }
 }

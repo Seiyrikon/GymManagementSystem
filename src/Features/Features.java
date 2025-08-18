@@ -1,8 +1,8 @@
 package Features;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import Database.Database;
@@ -27,41 +27,41 @@ public class Features {
     CommonTools tools = new CommonTools();
     CustomValidator validator = new CustomValidator();
 
-    public List<Subscription> registerMember(String choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus, List<Subscription> subscriptions) {
+    public Map<String, Subscription> registerMember(String choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus, Map<String, Subscription> subscriptionMap) {
         
         switch (choice) {
             case "1":
                 Subscription yearly = new Yearly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
-                subscriptions.add(yearly);
-                database.writeDatabase(subscriptions);
+                subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), yearly);
+                database.writeDatabase(subscriptionMap);
                 System.out.println("Subscription has beem created successfully!");
                 break;
             case "2": 
                 Subscription monthly = new Monthly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
-                subscriptions.add(monthly);
-                database.writeDatabase(subscriptions);
+                subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), monthly);
+                database.writeDatabase(subscriptionMap);
                 System.out.println("Subscription has beem created successfully!");
                 break; 
             case "3":
                 Subscription weekly = new Weekly(id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus);
-                subscriptions.add(weekly);
-                database.writeDatabase(subscriptions);
+                subscriptionMap.put(uniqueIdentifier + "," + memberName.toLowerCase(), weekly);
+                database.writeDatabase(subscriptionMap);
                 System.out.println("Subscription has beem created successfully!");
             default:
                 break;
         }
 
-        return subscriptions;
+        return subscriptionMap;
     }
 
-    public List<Subscription> registerMemberHandler(String choice, List<Subscription> subscriptions) throws ExistingSubscriptionException {
+    public Map<String, Subscription> registerMemberHandler(String choice, Map<String, Subscription> subscriptionMap) throws ExistingSubscriptionException {
         if(choice.equals("4")) {
-            return subscriptions;
+            return subscriptionMap;
         }
 
         String uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
 
-        final String id = (subscriptions.size() == 0) ? "1" : new StringBuilder().append(subscriptions.size() + 1).toString();
+        final String id = (subscriptionMap.size() == 0) ? "1" : new StringBuilder().append(subscriptionMap.size() + 1).toString();
 
         Scanner sc = new Scanner(System.in);
 
@@ -73,7 +73,7 @@ public class Features {
         memberName = sc.nextLine();
         memberName = tools.removeSpace(memberName);
 
-        validator.existingSubscription(subscriptions, uniqueIdentifier, memberName);
+        validator.existingSubscription(subscriptionMap, uniqueIdentifier, memberName);
 
         dateOfAvailment = dateParser.removeDash(LocalDate.now().toString());
 
@@ -82,83 +82,97 @@ public class Features {
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusYears(1).toString());
                 membershipType = SubscriptionType.YEARLY.label;
                 membershipStatus = MembershipStatus.ACTIVATED.label;
-                subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
+                subscriptionMap = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptionMap);
                 break;
             case "2": 
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusMonths(1).toString());
                 membershipType = SubscriptionType.MONTHLY.label;
                 membershipStatus = MembershipStatus.ACTIVATED.label;
-                subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
+                subscriptionMap = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptionMap);
                 break;
             case "3":
                 membershipExpirationDate = dateParser.removeDash(LocalDate.now().plusWeeks(1).toString());
                 membershipType = SubscriptionType.WEEKLY.label;
                 membershipStatus = MembershipStatus.ACTIVATED.label;
-                subscriptions = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptions);
+                subscriptionMap = registerMember(choice, id, uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus, subscriptionMap);
                 break;
             default:
                 sc.close();
                 break;
         }
 
-        return subscriptions;
+        return subscriptionMap;
     }
 
-    public List<Subscription> viewAllMembers(List<Subscription> subscriptions) {
+    public void viewAllMembers(Map<String, Subscription> subscriptionMap) {
         
-        if(subscriptions.size() != 0) {
-            for(Subscription s : subscriptions) {
+        if(subscriptionMap.size() != 0) {
+            for(Subscription s : subscriptionMap.values()) {
                 System.out.println(s);
             }
         } else {
             System.out.println("No member/s yet.");
         }
-
-        return subscriptions;
     }
 
-    public void searchMember(List<Subscription> subscriptions, String toSearch) throws SubscriptionNotFoundException {
+    public void searchMember(Map<String, Subscription> subscriptionMap, String toSearch) throws SubscriptionNotFoundException {
         String[] parts = toSearch.split(",");
-        List<Subscription> searchedMember = new ArrayList<Subscription>();
-        
-        for(Subscription s : subscriptions) {
-            if(s.getUniqueIdentifier().equalsIgnoreCase(parts[0]) && s.getMemberName().equalsIgnoreCase(parts[1])) {
-                searchedMember.add(s);
-                break;
-            }
-        }
+        Subscription searchedMember = subscriptionMap.get(toSearch);
 
-        if(searchedMember.size() != 0) {
-            System.out.println(searchedMember.get(0));
+        if(searchedMember != null) {
+            System.out.println(searchedMember);
         } else {
             throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
         }
     }
 
-    public void filterActiveMembers(List<Subscription> subscriptions) {
-        List<Subscription> activeSubscribers = new ArrayList<Subscription>();
-        for(Subscription s : subscriptions) {
-            if(s.getMembershipStatus().equals(MembershipStatus.ACTIVATED.label)) {
-                activeSubscribers.add(s);
+    public void filterActiveMembers(Map<String, Subscription> activeMembers) {
+        if(activeMembers.size() != 0) {
+            for(Subscription s : activeMembers.values()) {
+                System.out.println(s);
             }
-        }
-
-        for(Subscription as : activeSubscribers) {
-            System.out.println(as);
+        } else {
+            System.out.println("No active member/s yet.");
         }
     }
 
-    public List<Subscription> deactivateMember(List<Subscription> subscriptions, String toDeactivate) throws SubscriptionNotFoundException {
+    public Map<String, Subscription> deactivateMember(Map<String, Subscription> subscriptionMap, String toDeactivate) throws SubscriptionNotFoundException {
         String[] parts = toDeactivate.split(",");
-        for(Subscription s : subscriptions) {
-            if(s.getUniqueIdentifier().equalsIgnoreCase(parts[0]) && s.getMemberName().equalsIgnoreCase(parts[1])) {
-                s.deactivateMemberStatus();
-                database.writeDatabase(subscriptions);
-                System.out.println("Deactivation successful!");
-                return subscriptions;
+        Subscription targetMember = subscriptionMap.get(toDeactivate);
+
+        if(targetMember != null) {
+            targetMember.deactivateMemberStatus();
+            database.writeDatabase(subscriptionMap);
+            System.out.println("Deactivation Successful!");
+        } else {
+            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+        }
+
+        return subscriptionMap;
+    }
+
+    public Map<String, Subscription> getAllActiveMembers(Map<String, Subscription> subscriptionMap) {
+        Map<String, Subscription> activeMembers = new HashMap<String, Subscription>();
+        for(Map.Entry<String, Subscription> s: subscriptionMap.entrySet()) {
+            Subscription subbedMember = s.getValue();
+
+            if(subbedMember.getMembershipStatus().equalsIgnoreCase(MembershipStatus.ACTIVATED.label)) {
+                activeMembers.put(subbedMember.getUniqueIdentifier() + "," + subbedMember.getMemberName(), subbedMember);
             }
         }
-        throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+        return activeMembers;
+    }
+
+    public Map<String, Subscription> removeDeactivatedMember(Map<String, Subscription> filteredActiveMembers, String toDeactivate) {
+        String[] parts = toDeactivate.split(",");
+
+        if(filteredActiveMembers.get(toDeactivate) != null) {
+            filteredActiveMembers.remove(toDeactivate);
+        } else {
+            System.out.println("Member \"" + parts[1] + "\" not found.");
+        }
+
+        return filteredActiveMembers;
     }
 
 }
