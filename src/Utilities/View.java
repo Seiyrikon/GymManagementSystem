@@ -35,15 +35,25 @@ public class View {
     }
 
     public String targetMemberView(Scanner sc) {
+        boolean emptyUniqueIdentifier = true, emptyName = true;
+        String uniqueIdentifier = "", memberName = "";
         System.out.println();
 
-        System.out.print("Enter Unique Identifier: ");
-        String uniqueIdentifier = sc.nextLine();
-        uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
+        while(emptyUniqueIdentifier) {
+            System.out.print("Enter Unique Identifier: ");
+            uniqueIdentifier = sc.nextLine();
+            uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
 
-        System.out.print("Enter Member Name: ");
-        String memberName = sc.nextLine();
-        memberName = tools.removeSpace(memberName);
+            emptyUniqueIdentifier = (uniqueIdentifier.equals("")) ? true : false;
+        }
+
+        while(emptyName) {
+            System.out.print("Enter Member Name: ");
+            memberName = sc.nextLine();
+            memberName = tools.removeSpace(memberName);
+
+            emptyName = (memberName.equals("")) ? true : false;
+        }
 
         System.out.println();
 

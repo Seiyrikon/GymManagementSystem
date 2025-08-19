@@ -31,7 +31,7 @@ public class Start {
                 choice = sc.nextLine();
                 choice = tools.removeSpace(choice);
                 validator.validateScannerNumberChoice(choice);
-                validator.validateChoiceNumberRange(choice, 1, 6);
+                validator.validateChoiceNumberRange(choice, 1, 7);
                 continueLoop = false;
 
                 switch (choice) {
