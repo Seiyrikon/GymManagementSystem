@@ -60,9 +60,7 @@ public class Start {
                     case "2": 
                         continueLoop = true;
                         String targetMember = view.targetMemberView(sc);
-                        features.searchMember(subscriptionMap, targetMember);
-                        String newInfo = view.editView(sc);
-                        features.editMemberInfo(subscriptionMap, targetMember, newInfo);
+                        features.editMemberInfo(subscriptionMap, targetMember, sc);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;

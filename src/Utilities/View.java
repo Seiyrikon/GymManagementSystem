@@ -44,7 +44,7 @@ public class View {
             uniqueIdentifier = sc.nextLine();
             uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
 
-            emptyUniqueIdentifier = (uniqueIdentifier.equals("")) ? true : false;
+            emptyUniqueIdentifier = tools.inputIsEmpty(uniqueIdentifier);
         }
 
         while(emptyName) {
@@ -52,7 +52,7 @@ public class View {
             memberName = sc.nextLine();
             memberName = tools.removeSpace(memberName);
 
-            emptyName = (memberName.equals("")) ? true : false;
+            emptyName = tools.inputIsEmpty(memberName);
         }
 
         System.out.println();
@@ -67,13 +67,18 @@ public class View {
     }
 
     public String editView(Scanner sc) {
+        boolean emptyNewMemberName = true;
+        String memberName = "";
         System.out.println();
         System.out.println("Edit member information");
         System.out.println();
 
-        System.out.print("Enter new Member Name: ");
-        String memberName = sc.nextLine();
-        memberName = tools.removeSpace(memberName);
+        while(emptyNewMemberName == false) {
+            System.out.print("Enter new Member Name: ");
+            memberName = sc.nextLine();
+            memberName = tools.removeSpace(memberName);
+            emptyNewMemberName = tools.inputIsEmpty(memberName);
+        }
 
         System.out.println();
 

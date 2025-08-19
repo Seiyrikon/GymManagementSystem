@@ -18,6 +18,7 @@ import Utilities.CommonTools;
 import Utilities.CustomDateFormatter;
 import Utilities.CustomValidator;
 import Utilities.DateParser;
+import Utilities.View;
 
 public class Features {
 
@@ -26,6 +27,7 @@ public class Features {
     DateParser dateParser = new DateParser();
     CommonTools tools = new CommonTools();
     CustomValidator validator = new CustomValidator();
+    View view = new View();
 
     public Map<String, Subscription> registerMember(String choice, String id ,String uniqueIdentifier, String memberName, String dateOfAvailment, String membershipExpirationDate, String membershipType, String membershipStatus, Map<String, Subscription> subscriptionMap) {
         
@@ -59,18 +61,25 @@ public class Features {
             return subscriptionMap;
         }
 
-        String uniqueIdentifier, memberName, dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
+        boolean emptyUniqueIdentifier = true, emptyMemberName = true;
+        String uniqueIdentifier = "", memberName = "", dateOfAvailment, membershipExpirationDate, membershipType, membershipStatus;
 
         final String id = (subscriptionMap.size() == 0) ? "1" : new StringBuilder().append(subscriptionMap.size() + 1).toString();
 
-        System.out.print("Enter Unique Identifier: ");
-        uniqueIdentifier = sc.nextLine();
-        uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
+        while(emptyUniqueIdentifier == false) {
+            System.out.print("Enter Unique Identifier: ");
+            uniqueIdentifier = sc.nextLine();
+            uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
+            emptyUniqueIdentifier = tools.inputIsEmpty(uniqueIdentifier);
+        }
 
-        System.out.print("Enter Member Name: ");
-        memberName = sc.nextLine();
-        memberName = tools.removeSpace(memberName);
-
+        while (emptyMemberName == false) {   
+            System.out.print("Enter Member Name: ");
+            memberName = sc.nextLine();
+            memberName = tools.removeSpace(memberName);
+            emptyMemberName = tools.inputIsEmpty(memberName);
+        }
+            
         validator.existingSubscription(subscriptionMap, uniqueIdentifier, memberName);
 
         dateOfAvailment = dateParser.removeDash(LocalDate.now().toString());
@@ -173,12 +182,14 @@ public class Features {
         return filteredActiveMembers;
     }
 
-    public Map<String, Subscription> editMemberInfo(Map<String, Subscription> subscriptionMap, String targetMember, String newInfo) throws SubscriptionNotFoundException {
+    public Map<String, Subscription> editMemberInfo(Map<String, Subscription> subscriptionMap, String targetMember, Scanner sc) throws SubscriptionNotFoundException {
         String[] parts = targetMember.split(",");
 
         Subscription searchedMember = subscriptionMap.get(targetMember.toLowerCase());
 
         if(searchedMember != null) {
+            System.out.println(searchedMember);
+            String newInfo = view.editView(sc);
             searchedMember.setMemberName(newInfo);
             System.out.println("Updated Successful.");
         } else {
