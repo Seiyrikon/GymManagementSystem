@@ -129,7 +129,7 @@ public class Features {
         if(searchedMember != null) {
             System.out.println(searchedMember);
         } else {
-            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+            throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
         }
     }
 
@@ -152,7 +152,7 @@ public class Features {
             database.writeDatabase(subscriptionMap);
             System.out.println("Deactivation Successful!");
         } else {
-            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+            throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
         }
 
         return subscriptionMap;
@@ -176,7 +176,7 @@ public class Features {
         if(filteredActiveMembers.get(toDeactivate) != null) {
             filteredActiveMembers.remove(toDeactivate);
         } else {
-            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+            throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
         }
 
         return filteredActiveMembers;
@@ -193,7 +193,7 @@ public class Features {
             searchedMember.setMemberName(newInfo);
             System.out.println("Updated Successful.");
         } else {
-            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+            throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
         }
 
         database.writeDatabase(subscriptionMap);
