@@ -66,14 +66,14 @@ public class Features {
 
         final String id = (subscriptionMap.size() == 0) ? "1" : new StringBuilder().append(subscriptionMap.size() + 1).toString();
 
-        while(emptyUniqueIdentifier == false) {
+        while(emptyUniqueIdentifier == true) {
             System.out.print("Enter Unique Identifier: ");
             uniqueIdentifier = sc.nextLine();
             uniqueIdentifier = tools.removeSpace(uniqueIdentifier);
             emptyUniqueIdentifier = tools.inputIsEmpty(uniqueIdentifier);
         }
 
-        while (emptyMemberName == false) {   
+        while (emptyMemberName == true) {   
             System.out.print("Enter Member Name: ");
             memberName = sc.nextLine();
             memberName = tools.removeSpace(memberName);

@@ -73,7 +73,7 @@ public class View {
         System.out.println("Edit member information");
         System.out.println();
 
-        while(emptyNewMemberName == false) {
+        while(emptyNewMemberName == true) {
             System.out.print("Enter new Member Name: ");
             memberName = sc.nextLine();
             memberName = tools.removeSpace(memberName);
