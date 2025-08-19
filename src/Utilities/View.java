@@ -2,6 +2,8 @@ package Utilities;
 
 import java.util.Scanner;
 
+import Features.Features;
+
 public class View {
     CommonTools tools = new CommonTools();
 
@@ -10,11 +12,12 @@ public class View {
         System.out.println("Welcome to Gym Management System");
         System.out.println();
         System.out.println("(1) Register a member.");
-        System.out.println("(2) View all members.");
-        System.out.println("(3) Search a member.");
-        System.out.println("(4) Filter Active Members.");
-        System.out.println("(5) Deactivate a member.");
-        System.out.println("(6) Exit.");
+        System.out.println("(2) Edit member information.");
+        System.out.println("(3) View all members.");
+        System.out.println("(4) Search a member.");
+        System.out.println("(5) Filter Active Members.");
+        System.out.println("(6) Deactivate a member.");
+        System.out.println("(7) Exit.");
         System.out.println();
         System.out.print("Choose: ");
     }
@@ -44,12 +47,26 @@ public class View {
 
         System.out.println();
 
-        return uniqueIdentifier + "," + memberName.toLowerCase();
+        return uniqueIdentifier + "," + memberName;
     }
 
     public void filterView() {
         System.out.println();
         System.out.println("All Active Members");
         System.out.println();
+    }
+
+    public String editView(Scanner sc) {
+        System.out.println();
+        System.out.println("Edit member information");
+        System.out.println();
+
+        System.out.print("Enter new Member Name: ");
+        String memberName = sc.nextLine();
+        memberName = tools.removeSpace(memberName);
+
+        System.out.println();
+
+        return memberName;
     }
 }

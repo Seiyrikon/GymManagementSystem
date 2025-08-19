@@ -115,7 +115,7 @@ public class Features {
 
     public void searchMember(Map<String, Subscription> subscriptionMap, String toSearch) throws SubscriptionNotFoundException {
         String[] parts = toSearch.split(",");
-        Subscription searchedMember = subscriptionMap.get(toSearch);
+        Subscription searchedMember = subscriptionMap.get(toSearch.toLowerCase());
 
         if(searchedMember != null) {
             System.out.println(searchedMember);
@@ -136,7 +136,7 @@ public class Features {
 
     public Map<String, Subscription> deactivateMember(Map<String, Subscription> subscriptionMap, String toDeactivate) throws SubscriptionNotFoundException {
         String[] parts = toDeactivate.split(",");
-        Subscription targetMember = subscriptionMap.get(toDeactivate);
+        Subscription targetMember = subscriptionMap.get(toDeactivate.toLowerCase());
 
         if(targetMember != null) {
             targetMember.deactivateMemberStatus();
@@ -161,16 +161,32 @@ public class Features {
         return activeMembers;
     }
 
-    public Map<String, Subscription> removeDeactivatedMember(Map<String, Subscription> filteredActiveMembers, String toDeactivate) {
+    public Map<String, Subscription> removeDeactivatedMember(Map<String, Subscription> filteredActiveMembers, String toDeactivate) throws SubscriptionNotFoundException {
         String[] parts = toDeactivate.split(",");
 
         if(filteredActiveMembers.get(toDeactivate) != null) {
             filteredActiveMembers.remove(toDeactivate);
         } else {
-            System.out.println("Member \"" + parts[1] + "\" not found.");
+            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
         }
 
         return filteredActiveMembers;
+    }
+
+    public Map<String, Subscription> editMemberInfo(Map<String, Subscription> subscriptionMap, String targetMember, String newInfo) throws SubscriptionNotFoundException {
+        String[] parts = targetMember.split(",");
+
+        Subscription searchedMember = subscriptionMap.get(targetMember.toLowerCase());
+
+        if(searchedMember != null) {
+            searchedMember.setMemberName(newInfo);
+            System.out.println("Updated Successful.");
+        } else {
+            throw new SubscriptionNotFoundException("Member \"" + parts[1] + "\" not found.");
+        }
+
+        database.writeDatabase(subscriptionMap);
+        return subscriptionMap;
     }
 
 }

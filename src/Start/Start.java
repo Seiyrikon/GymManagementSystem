@@ -59,25 +59,34 @@ public class Start {
                         break;
                     case "2": 
                         continueLoop = true;
-                        features.viewAllMembers(subscriptionMap);
+                        String targetMember = view.targetMemberView(sc);
+                        features.searchMember(subscriptionMap, targetMember);
+                        String newInfo = view.editView(sc);
+                        features.editMemberInfo(subscriptionMap, targetMember, newInfo);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
                     case "3":
+                        continueLoop = true;
+                        features.viewAllMembers(subscriptionMap);
+                        System.out.print("Press any key to continue...");
+                        sc.nextLine();
+                        break;
+                    case "4":
                         continueLoop = true;
                         String toSearch = view.targetMemberView(sc);
                         features.searchMember(subscriptionMap, toSearch);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
-                    case "4":
+                    case "5":
                         continueLoop = true;
                         view.filterView();
                         features.filterActiveMembers(filteredActiveMembers);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
-                    case "5":
+                    case "6":
                         continueLoop = true;
                         String toDeactivate = view.targetMemberView(sc);
                         subscriptionMap = features.deactivateMember(subscriptionMap, toDeactivate);
@@ -85,9 +94,10 @@ public class Start {
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
-                    case "6":
+                    case "7":
                         System.out.println("See you next time!");
                         System.out.println("System shutting down...");
+                        break;
                     default:
                         break;
                 }
