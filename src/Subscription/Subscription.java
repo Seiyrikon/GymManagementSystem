@@ -113,8 +113,6 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
                 setMembershipType(SubscriptionType.WEEKLY.label);
                 setMembershipExpirationDate(dateParser.removeDash(LocalDate.now().plusWeeks(1).toString()));
                 break;
-            case "4": 
-                break;
         }
     }
 
