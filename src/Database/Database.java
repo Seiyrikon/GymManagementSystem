@@ -80,6 +80,8 @@ public class Database {
             s.getValue().isExpiredMemberStatus();
         }
 
+        writeDatabase(subscriptionMap);
+
         return subscriptionMap;
     }
 } 
