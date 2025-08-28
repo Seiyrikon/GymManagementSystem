@@ -2,9 +2,6 @@ package Utilities;
 
 import java.util.Scanner;
 
-import Enum.MembershipStatus;
-import Features.Features;
-
 public class View {
     CommonTools tools = new CommonTools();
 
