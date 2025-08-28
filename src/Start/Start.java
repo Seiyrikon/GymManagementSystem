@@ -73,7 +73,9 @@ public class Start {
                     case "4":
                         continueLoop = true;
                         String toSearch = view.targetMemberView(sc);
-                        features.searchMember(subscriptionMap, toSearch);
+                        Subscription searchedMember = features.searchMember(subscriptionMap, toSearch);
+                        subscriptionMap = features.forReactivation(subscriptionMap, searchedMember, sc);
+                        filteredActiveMembers = features.getAllActiveMembers(subscriptionMap);
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;

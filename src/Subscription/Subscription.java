@@ -3,6 +3,7 @@ package Subscription;
 import java.time.LocalDate;
 
 import Enum.MembershipStatus;
+import Enum.SubscriptionType;
 import Interface.Activated;
 import Interface.Deactivated;
 import Interface.Expired;
@@ -95,8 +96,26 @@ public abstract class Subscription implements Activated, Deactivated, Expired{
     }
 
     @Override
-    public void activateMemberStatus() {
+    public void activateMemberStatus(String choice) {
+        setDateOfAvailment(dateParser.removeDash(LocalDate.now().toString()));
         setMembershipStatus(MembershipStatus.ACTIVATED.label);
+
+        switch (choice) {
+            case "1":
+                setMembershipType(SubscriptionType.YEARLY.label);
+                setMembershipExpirationDate(dateParser.removeDash(LocalDate.now().plusYears(1).toString()));
+                break;
+            case "2": 
+                setMembershipType(SubscriptionType.MONTHLY.label);
+                setMembershipExpirationDate(dateParser.removeDash(LocalDate.now().plusMonths(1).toString()));
+                break;
+            case "3":
+                setMembershipType(SubscriptionType.WEEKLY.label);
+                setMembershipExpirationDate(dateParser.removeDash(LocalDate.now().plusWeeks(1).toString()));
+                break;
+            case "4": 
+                break;
+        }
     }
 
     @Override

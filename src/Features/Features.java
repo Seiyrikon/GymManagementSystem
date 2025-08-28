@@ -9,6 +9,7 @@ import Database.Database;
 import Enum.MembershipStatus;
 import Enum.SubscriptionType;
 import Exception.ExistingSubscriptionException;
+import Exception.InvalidChoiceException;
 import Exception.SubscriptionNotFoundException;
 import Subscription.Monthly;
 import Subscription.Subscription;
@@ -122,7 +123,7 @@ public class Features {
         }
     }
 
-    public void searchMember(Map<String, Subscription> subscriptionMap, String toSearch) throws SubscriptionNotFoundException {
+    public Subscription searchMember(Map<String, Subscription> subscriptionMap, String toSearch) throws SubscriptionNotFoundException {
         String[] parts = toSearch.split(",");
         Subscription searchedMember = subscriptionMap.get(toSearch.toLowerCase());
 
@@ -131,6 +132,8 @@ public class Features {
         } else {
             throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
         }
+
+        return searchedMember;
     }
 
     public void filterActiveMembers(Map<String, Subscription> activeMembers) {
@@ -198,6 +201,69 @@ public class Features {
 
         database.writeDatabase(subscriptionMap);
         return subscriptionMap;
+    }
+
+    public Map<String, Subscription> forReactivation(Map<String, Subscription> subscriptionMap, Subscription member, Scanner sc) throws InvalidChoiceException {
+        boolean continueLoop = true;
+        String choice = "";
+
+        if(!member.getMembershipStatus().equalsIgnoreCase(MembershipStatus.ACTIVATED.label)) {
+            while(continueLoop == true) {
+                view.currentStatusView();
+                System.out.print("Choose: ");
+                choice = sc.nextLine();
+                choice = tools.removeSpace(choice);
+                
+                try {
+                    validator.validateScannerNumberChoice(choice);
+                    validator.validateChoiceNumberRange(choice, 1, 2);
+                    continueLoop = false;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                    continueLoop = true;
+                    System.out.print("Press any key to continue...");
+                    choice = sc.nextLine();
+                    System.out.println();
+                }
+
+                switch (choice) {
+                    case "1":
+                        continueLoop = true;
+                        while(continueLoop) {
+                            view.registrationView();
+                            try {
+                                choice = sc.nextLine();
+                                choice = tools.removeSpace(choice);
+                                validator.validateScannerNumberChoice(choice);
+                                validator.validateChoiceNumberRange(choice, 1, 4);
+
+                                if(choice.equalsIgnoreCase("4")) {
+                                    break;
+                                }
+
+                                member.activateMemberStatus(choice);
+                                database.writeDatabase(subscriptionMap);
+                                System.out.println();
+                                System.out.println("Reactivation Successful!");
+                                System.out.println();
+                                continueLoop = false;
+                            } catch (Exception e) {
+                                continueLoop = true;
+                                System.out.println("Error: " + e.getMessage());
+                                System.out.print("Press any key to continue...");
+                                sc.nextLine();
+                            }
+                        }
+                        break;
+                    case "2":
+                        System.out.println();
+                        System.out.println("Reactivation is cancelled.");
+                        System.out.println();
+                        break;
+                }
+            }
+        }
+            return subscriptionMap;
     }
 
 }

@@ -2,6 +2,7 @@ package Utilities;
 
 import java.util.Scanner;
 
+import Enum.MembershipStatus;
 import Features.Features;
 
 public class View {
@@ -84,4 +85,13 @@ public class View {
 
         return memberName;
     }
+
+    public void currentStatusView() {
+            System.out.println("Do you want to reactivate this member?");
+            System.out.println();
+            System.out.println("(1) Yes.");
+            System.out.println("(2) No.");
+            System.out.println();
+    }
+
 }
