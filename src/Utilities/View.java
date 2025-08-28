@@ -14,8 +14,9 @@ public class View {
         System.out.println("(3) View all members.");
         System.out.println("(4) Search a member.");
         System.out.println("(5) Filter Active Members.");
-        System.out.println("(6) Deactivate a member.");
-        System.out.println("(7) Exit.");
+        System.out.println("(6) Reactivate a member.");
+        System.out.println("(7) Deactivate a member.");
+        System.out.println("(8) Exit.");
         System.out.println();
         System.out.print("Choose: ");
     }

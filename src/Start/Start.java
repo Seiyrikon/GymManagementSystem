@@ -31,7 +31,7 @@ public class Start {
                 choice = sc.nextLine();
                 choice = tools.removeSpace(choice);
                 validator.validateScannerNumberChoice(choice);
-                validator.validateChoiceNumberRange(choice, 1, 7);
+                validator.validateChoiceNumberRange(choice, 1, 8);
                 continueLoop = false;
 
                 switch (choice) {
@@ -86,7 +86,16 @@ public class Start {
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
-                    case "6":
+                    case "6": 
+                        continueLoop = true;
+                        String toReactivate = view.targetMemberView(sc);
+                        Subscription toReactivateMember = features.searchMember(subscriptionMap, toReactivate);
+                        subscriptionMap = features.forReactivation(subscriptionMap, toReactivateMember, sc);
+                        filteredActiveMembers = features.getAllActiveMembers(subscriptionMap);
+                        System.out.print("Press any key to continue...");
+                        sc.nextLine();
+                        break;
+                    case "7":
                         continueLoop = true;
                         String toDeactivate = view.targetMemberView(sc);
                         subscriptionMap = features.deactivateMember(subscriptionMap, toDeactivate);
@@ -94,7 +103,7 @@ public class Start {
                         System.out.print("Press any key to continue...");
                         sc.nextLine();
                         break;
-                    case "7":
+                    case "8":
                         System.out.println("See you next time!");
                         System.out.println("System shutting down...");
                         break;
