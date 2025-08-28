@@ -1,7 +1,7 @@
 package Enum;
 
 public enum MembershipStatus {
-    ACTIVATED("Activated"), DEACTIVATED("Deactivated"), EXPIRED("Exprired");
+    ACTIVATED("Activated"), DEACTIVATED("Deactivated"), EXPIRED("Expired");
 
     public final String label;
 
