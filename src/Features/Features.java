@@ -194,6 +194,10 @@ public class Features {
             System.out.println(searchedMember);
             String newInfo = view.editView(sc);
             searchedMember.setMemberName(newInfo);
+
+            subscriptionMap.remove(targetMember);
+            subscriptionMap.put(parts[0] + "," + newInfo, searchedMember);
+
             System.out.println("Updated Successful.");
         } else {
             throw new SubscriptionNotFoundException("Member with Unique Identifier of \"" + parts[0] + "\"" + " and Name \"" + parts[1] + "\" is not found.");
